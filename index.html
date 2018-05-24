@@ -7,9 +7,9 @@
 </head>
 
 <body>
-    <h1>The Psychic Game</h1>
+  <h1>The Psychic Game</h1>
 
-    <h4>Guess what letter i'm thinking of...</h4>
+  <h4>Guess what letter i'm thinking of...</h4>
   <div id="game">
     <div id="wins">Wins: </div>
     <br>
@@ -17,66 +17,71 @@
 
     <br>
 
-    <div id="guessesLeft">Guesses Left: </div>
+    <div id="noOfGuessesLeft">Guesses Left: </div>
     <br>
     <div id="yourGuess">Your Guesses so far: </div>
-    
+
 
 
   </div>
 
   <script type="text/javascript">
     // Creates an a-z array.
-    let letters = ("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q",
-    "r","s","t","u","v","w","x","y","z");
+    let letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q",
+      "r", "s", "t", "u", "v", "w", "x", "y", "z"
+    ];
 
- 	let win = 0;
-	let losses = 0;
-	let tie = 0;
-	
-	let selection = userChoice + computerChoice;
+    let win = 0;
+    let losses = 0;
+    let tie = 0;
+    let guessesLeft = 9;
+    let computerChoice = "";
+    let yourGuesses = [];
+
+    // this function will compare the computer-generated choice and user-selected choice
+
 
     // This function is run whenever the user presses a key.
+    
     document.onkeyup = function (event) {
+      document.getElementById('noOfGuessesLeft').innerHTML = "Guesses left: " + guessesLeft;
       // Determines which key was pressed.
       let userChoice = event.key;
-      
-      document.getElementById('userChoice').innerHTML = "You chose: " + userChoice;
+      yourGuesses.push = userChoice;
+      guessesLeft--;
+
+
+      console.log('current counter is: ' + guessesLeft);
+      console.log('user choice: ' + userChoice);
+
+      //document.getElementById('noOfGuessesLeft').innerHTML = "Guesses left: " + guessesLeft;
+      document.getElementById('yourGuess').innerHTML = "Your Guesses so far: " + yourGuesses;
 
       // Randomly chooses a choice from the options array. This is the Computer's guess.
-      var computerChoice = letters[Math.floor(Math.random() * letters.length)];
+      randomizeChoice();
 
-      document.getElementById('computerChoice').innerHTML = "Computer chose: " + computerChoice;
-    
-    let selection = userChoice + computerChoice;
-	   
-      if (selection === 'rs' || selection === 'sp' || selection === 'pr') {
-      	win++;
-        document.getElementById('win').innerHTML = "wins: " + win;
-      	console.log ('You win: ' + userChoice);
+      compareSelection(userChoice, computerChoice);
+      if (guessesLeft === 1){
+        return guessesLeft = 9;
       }
-      else if (selection === 'rr' || selection === 'ss' || selection === 'pp') {
-      	tie++;
-        document.getElementById('tie').innerHTML = "tie: " + tie;
-      	console.log('it is a tie: ' + userChoice);
-      }
-      else if (selection === 'rp' || selection === 'sr' || selection === 'ps') 
-      {
-      	losses++;
+    }
+  
+    function randomizeChoice() {
+      computerChoice = letters[Math.floor(Math.random() * letters.length)];
+      console.log('computer choice: ' + computerChoice);
+    }
+
+    function compareSelection(userChoice, computerChoice) {
+      if (userChoice === computerChoice) {
+        win++;
+        document.getElementById('wins').innerHTML = "wins: " + win;
+        console.log('You win: ' + userChoice);
+      } else {
+        losses++;
         document.getElementById('losses').innerHTML = "losses: " + losses;
-      	console.log('you lose: ' + userChoice);
+        console.log('you lose: ' + userChoice);
       }
-      else
-        return;
-}
-   
-
-   /* function randomLetter() {
-    let letters =
-    ("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q"
-    ,"r","s","t","u","v","w","x","y","z");
-   } */
-
+    }
   </script>
 
 </body>
