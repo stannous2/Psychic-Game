@@ -41,9 +41,9 @@
       document.getElementById('noOfGuessesLeft').innerHTML = "Guesses left: " + guessesLeft;
 
       // Determines which key was pressed.
-      let userChoice = event.key;
+      let userChoice = event.key.toLowerCase();
       
-      if (letters.includes(userChoice.toLowerCase())) {
+      if (letters.includes(userChoice)) {
         arr.push(" " + userChoice);
         guessesLeft--;
 
@@ -66,7 +66,7 @@
           return guessesLeft = 9;
         }
       } else {
-        return; 
+        return;
       }
     }
 
