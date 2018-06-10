@@ -36,15 +36,20 @@
     let guessesLeft = 9;
     let computerChoice = "";
     let arr = [];
+    let alreadyGuessed = [];
 
     document.onkeyup = function (event) {
       document.getElementById('noOfGuessesLeft').innerHTML = "Guesses left: " + guessesLeft;
 
       // Determines which key was pressed.
       let userChoice = event.key.toLowerCase();
-      
-      if (letters.includes(userChoice)) {
-        arr.push(" " + userChoice);
+
+      // move guessed letters from the letters array to alreadyGuessed array
+      if (letters.includes(userChoice) && !alreadyGuessed.includes(userChoice)) {
+
+        alreadyGuessed.push(userChoice);
+        console.log('arr: ' + arr);
+
         guessesLeft--;
 
         console.log('current counter is: ' + guessesLeft);
@@ -52,19 +57,17 @@
 
         document.getElementById('noOfGuessesLeft').innerHTML = "Guesses left: " + guessesLeft;
 
-        document.getElementById('yourGuess').innerHTML = "Your Guesses so far: " + arr;
+        document.getElementById('yourGuess').innerHTML = "Your Guesses so far: " + alreadyGuessed;
 
-        console.log('your guesses so far: ' + arr);
+        console.log('your guesses so far: ' + alreadyGuessed);
 
         // Randomly chooses a choice from the options array. This is the Computer's guess.
         randomizeChoice();
 
         compareSelection(userChoice, computerChoice);
+        //debugger;
+        resetGame(guessesLeft);
 
-        if (guessesLeft === 0) {
-          arr.length = 0;
-          return guessesLeft = 9;
-        }
       } else {
         return;
       }
@@ -76,15 +79,28 @@
     }
 
     function compareSelection(userChoice, computerChoice) {
-      if (userChoice === computerChoice) {
-        win++;
-        document.getElementById('wins').innerHTML = "wins: " + win;
-        console.log('You win: ' + userChoice);
-      } else {
+      if (userChoice !== computerChoice && guessesLeft === 0) {
         losses++;
         document.getElementById('losses').innerHTML = "losses: " + losses;
         console.log('you lose: ' + userChoice);
-      }
+
+      } else if (userChoice === computerChoice) {
+        win++;
+        document.getElementById('wins').innerHTML = "wins: " + win;
+        console.log('You win: ' + userChoice);
+      } else
+        return;
+    }
+
+    function resetGame(counter) {
+      if (counter === 0) {
+        guessesLeft = 9;
+        alreadyGuessed.length = 0;
+        document.getElementById('noOfGuessesLeft').innerHTML = "Guesses left: " + guessesLeft;
+
+        document.getElementById('yourGuess').innerHTML = "Your Guesses so far: " + alreadyGuessed;
+      }else
+      return;
     }
   </script>
 
